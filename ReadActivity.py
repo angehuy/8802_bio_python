@@ -5,6 +5,7 @@ single RAD-seq?
  Given two restriction sites, what percentage of the genome will be sequenced
 by double RAD-seq?
  Given a Type 2-RE site, what percentage of the genome will be sequenced?
+blah
 '''
 
 '''
