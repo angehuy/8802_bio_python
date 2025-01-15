@@ -46,63 +46,52 @@ file = args.DNA_file
 genes = Fasta(file) # creates a dictionary of accession:sequence
 genes_names = genes.keys()
 genes_names = list(genes_names) # gets a list of the accessions inside file
-print(genes_names)
-
-# print(genes['NC_036780.1'])
 
 full_seq = {}
 
 RAD_adaptor = "GAATTC"
 
+seq_adaptor_coord = []
 
-for name in genes_names:
+total_genome_length = 0
+
+for name in genes_names: #iterating through the ordered dict
     seq = genes[name] # gets the sequence
     seq = str(seq)
     seq_length = len(seq)
+    total_genome_length += seq_length
+
     for match in re.finditer(RAD_adaptor, seq):
-        print (match.start(), match.end())
+        coord = [match.start(), match.end()]
+        seq_adaptor_coord.append(coord)
+
+# checking if there are pairs of adaptor occurences; if not, then remove the last one
+if len(seq_adaptor_coord) % 2 != 0:
+    seq_adaptor_coord.pop()
+
+
+# #1 = first adaptor
+# #2 = second adaptor
+# want to look at where #1 ends and #2 begins
+# then for each of those, subtract the positions
+
+
+inbetween_adaptor_count = 0
+
+
+for i in range(0, len(seq_adaptor_coord), 2): # iterate through each pair of adaptors
+    one_end = int(seq_adaptor_coord[i][1]) # getting #1's end
+    two_start = int(seq_adaptor_coord[i+1][0])
+    diff = two_start - one_end
+    inbetween_adaptor_count += diff
+
+
+percent_inbetween_adaptor = (inbetween_adaptor_count/ total_genome_length) * 100
+percent_inbetween_adaptor_rounded = round(percent_inbetween_adaptor,2)
+
+print(f'Percentage of genome sequenced by: {percent_inbetween_adaptor_rounded} %')
 
 
 
-
-
-# print(type(full_seq))
-
-
-# print(genes.keys())
-# Mzebra_Chr1 = genes['NC_036780.1']
-# Mzebra_Chr1 = str(Mzebra_Chr1)
-# print(type(Mzebra_Chr1))
-
-
-# nuc_count = {
-#     "A":0,
-#     "T":0,
-#     "G":0,
-#     "C":0,
-#     "N":0
-# }
-
-
-
-# for nucleotide in Mzebra_Chr1:
-#     nuc_count[nucleotide] += 1
-
-# print(nuc_count)
-
-
-# G_per = (nuc_count["G"]) / len(Mzebra_Chr1)
-# C_per = (nuc_count["C"]) / len(Mzebra_Chr1)
-# A_per = (nuc_count["A"]) / len(Mzebra_Chr1 )
-# T_per = (nuc_count["T"]) / len(Mzebra_Chr1)
-
-# print(G_per)
-
-# RAD_adaptor = "GAATTC"
-
-
-
-# DB_adptor1 = "CGA"
-# DB_adaptor2 = "TGC"
 
 
