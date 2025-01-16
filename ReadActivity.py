@@ -1,47 +1,27 @@
 
 '''
-Given a restriction site, what percentage of the genome will be sequenced by
-single RAD-seq?
- Given two restriction sites, what percentage of the genome will be sequenced
-by double RAD-seq?
- Given a Type 2-RE site, what percentage of the genome will be sequenced?
-blah
-'''
+------------------------ Notes for myself ------------------------------------
 
-'''
-Note: dont run during the play button just do in terminal
-
-# Need the percentage of each base of your desired sequence
-# Then multiply percentages based on the adaptor sequences
-
-
-Usage: python ReadActivity.py Mzebra_GT3_Chr1.fasta
-
-# want user to specify the motif
-
-parser.add_argument('Motif', type = str, help = 'Adaptor motif')
-motif = args.Motif
-
-i.e. GAATTC
-
-Are we trying to find the amount of bases within 2 GAATTC adaptor sequences?
-
-
----
-
-
+- Run in terminal with: python ReadActivity.py Mzebra_GT3_Chr1.fasta
 in the _GT3.fasta file, there are multiple accessin numbers which represent a different chromosome
 So we need to iterate through all the values in the dictionary
+
+
+- Need to add functionality for double RAD sequencing
 '''
 
 from pyfaidx import Fasta
 import argparse
 import re
 
-parser = argparse.ArgumentParser(description = 'This script takes in a fasta file') 
-parser.add_argument('DNA_file', type = str, help = 'DNA sequence to analyze') # storing it as a string type object
+parser = argparse.ArgumentParser(description = 'This script takes in a fasta file and an adaptor motif and identifies percentage of the fasta file that is sequenced') 
+parser.add_argument('DNA_file', type = str, help = 'DNA sequence to analyze') # positional argument; storing it as a string type object
+parser.add_argument('--Motif', type=str, help='Adaptor motif', default='GAATTC') # optional argument; needs -- or -
+
+
 args = parser.parse_args()
 file = args.DNA_file
+motif = args.Motif
 
 genes = Fasta(file) # creates a dictionary of accession:sequence
 genes_names = genes.keys()
@@ -49,7 +29,6 @@ genes_names = list(genes_names) # gets a list of the accessions inside file
 
 full_seq = {}
 
-RAD_adaptor = "GAATTC"
 
 seq_adaptor_coord = []
 
@@ -61,7 +40,7 @@ for name in genes_names: #iterating through the ordered dict
     seq_length = len(seq)
     total_genome_length += seq_length
 
-    for match in re.finditer(RAD_adaptor, seq):
+    for match in re.finditer(motif, seq):
         coord = [match.start(), match.end()]
         seq_adaptor_coord.append(coord)
 
