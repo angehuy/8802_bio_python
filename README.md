@@ -12,9 +12,6 @@ Before running the script, ensure you have the following dependencies installed:
   - `pyfaidx`
   - `Bio.Restriction.Restriction_Dictionary`
  
-Download the example data files in this repo:
-  - ` Mzebra_GT3_Chr1.fasta`
-  - ` YH_MC_samples_Chr1.vcf`
 
 Example of running the script using example data:
 - python radseq_variance_analysis.py Mzebra_GT3_Chr1.fasta YH_MC_samples_Chr1.vcf SingleRad EcoRI 
