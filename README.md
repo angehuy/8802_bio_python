@@ -1,6 +1,6 @@
-# radseq_variance_analysis.py: RAD-seq Variant Analysis
+# RAD-seq Variant Analysis
 
-This script performs **RAD-seq variant analysis** to locate sequencing sites, detect variations within those sites, and calculate relevant statistics. It supports two modes: **SingleRad** and **ddRad**, which are different methods for sequencing based on restriction enzyme digestion.
+The **radseq_variance_analysis.py** script performs **RAD-seq variant analysis** to locate sequencing sites, detect variations within those sites, and calculate relevant statistics. It supports two modes: **SingleRad** and **ddRad**, which are different methods for sequencing based on restriction enzyme digestion.
 
 ## Requirements
 
